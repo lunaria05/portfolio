@@ -6,14 +6,14 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="w-full bg-[#121212] border-b border-white/10">
+    <nav className="w-full bg-[#121212] border-b border-white/10 font-luckiestguy">
       <div className="flex items-center justify-between px-6 py-4">
         {/* Logo Section */}
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
-            <span className="text-[#121212] font-bold text-sm">H</span>
+          <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center font-luckiestguy">
+            <span className="text-[#121212] font-bold text-xl ">H</span>
           </div>
-          <span className="text-white font-semibold text-lg">Portfolio</span>
+          <span className="text-white font-semibold text-xl uppercase tracking-widest">HiralVala</span>
         </div>
 
         <div className="flex items-center gap-4">
@@ -32,18 +32,6 @@ const Navbar = () => {
           </button>
         </div>
       </div>
-
-      {/* Mobile Menu - Optional */}
-      {/* {isMenuOpen && (
-        <div className="border-t border-white/10 px-6 py-4">
-          <ul className="flex flex-col gap-4 text-white">
-            <li className="hover:text-white/70 cursor-pointer transition-colors">Home</li>
-            <li className="hover:text-white/70 cursor-pointer transition-colors">About</li>
-            <li className="hover:text-white/70 cursor-pointer transition-colors">Projects</li>
-            <li className="hover:text-white/70 cursor-pointer transition-colors">Contact</li>
-          </ul>
-        </div>
-      )} */}
     </nav>
   );
 };
