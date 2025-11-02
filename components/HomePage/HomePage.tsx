@@ -1,5 +1,5 @@
 import React from 'react'
-import InteractiveGridPattern from '../InteractiveGridPattern/InteractiveGridPattern'
+import InteractiveGridPattern from '../HeroSection/InteractiveGridPattern'
 import Navbar from '../Navbar/Navbar'
 import HeroSection from '../HeroSection/HeroSection'
 
