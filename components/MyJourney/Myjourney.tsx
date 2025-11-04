@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
 import StaticGridPattern from './StaticGridPattern';
 
 interface JourneyItem {
@@ -12,9 +12,119 @@ interface JourneyItem {
   achievement?: string;
 }
 
+interface HorizontalScrollContentProps {
+  scrollProgress: MotionValue<number>;
+  journeyData: JourneyItem[];
+}
+
+const HorizontalScrollContent: React.FC<HorizontalScrollContentProps> = ({ scrollProgress, journeyData }) => {
+  // Horizontal scroll animation - ends when last card is visible
+  const x = useTransform(scrollProgress, [0, 0.2, 0.5, 0.85, 1], ["60%", "30%", "0%", "-100%", "-100%"]);
+  const opacity = useTransform(scrollProgress, [0, 0.15, 0.25, 0.8, 1], [0, 0.5, 1, 1, 1]);
+
+  return (
+    <motion.div
+      style={{ x, opacity, willChange: 'transform' }}
+      className="absolute inset-0 flex items-center gap-44 pl-[5%] pr-[50%]"
+    >
+      {/* Curved Timeline SVG - Smooth Rounded Wave */}
+      <svg
+        className="absolute left-0 top-1/2 -translate-y-1/2 w-[150%] h-[250px] pointer-events-none"
+        viewBox="0 0 1600 250"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient id="timelineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.15)" />
+            <stop offset="20%" stopColor="rgba(255, 255, 255, 0.35)" />
+            <stop offset="50%" stopColor="rgba(255, 255, 255, 0.5)" />
+            <stop offset="80%" stopColor="rgba(255, 255, 255, 0.35)" />
+            <stop offset="100%" stopColor="rgba(255, 255, 255, 0.15)" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M 0,125 C 100,85 150,85 250,125 C 350,165 400,165 500,125 C 600,85 650,85 750,125 C 850,165 900,165 1000,125 C 1100,85 1150,85 1250,125 C 1350,165 1400,165 1500,125 L 1600,125"
+          fill="none"
+          stroke="url(#timelineGradient)"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+        />
+      </svg>
+
+      {/* Journey Cards */}
+      {journeyData.map((item, index) => (
+        <motion.div
+          key={index}
+          style={{ opacity }}
+          className={`shrink-0 relative ${index % 2 === 0 ? 'self-start mt-16' : 'self-end mb-16'}`}
+        >
+          <div className="relative">
+            {/* Card - Fixed Size */}
+            <motion.div
+              initial={{ opacity: 0, y: index % 2 === 0 ? -80 : 80, scale: 0.9 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{
+                duration: 1.2,
+                delay: index * 0.2,
+                ease: [0.25, 0.1, 0.25, 1] // cubic-bezier for smooth easing
+              }}
+              viewport={{ once: false, amount: 0.3 }}
+              whileHover={{ scale: 1.05, y: index % 2 === 0 ? -5 : 5 }}
+              className="bg-linear-to-br from-white/15 to-white/5 backdrop-blur-md border border-white/20 rounded-xl p-4 shadow-xl w-64 h-[280px] hover:shadow-white/10 transition-shadow duration-300 flex flex-col"
+            >
+              {/* Year Badge */}
+              <div className="inline-block bg-white/25 backdrop-blur-md px-3 py-1 rounded-full mb-2 w-fit">
+                <span className="text-white font-domine font-semibold text-xs tracking-wider">
+                  {item.year}
+                </span>
+              </div>
+
+              {/* Title */}
+              <h3 className="text-lg font-domine font-semibold text-[#e6e6e6] mb-2 line-clamp-2">
+                {item.title}
+              </h3>
+
+              {/* Description - Truncated */}
+              <p className="text-white/80 font-domine text-sm leading-relaxed mb-2 line-clamp-4 grow">
+                {item.description}
+              </p>
+
+              {/* Additional Info */}
+              <div className="flex flex-wrap gap-1.5 mt-auto">
+                {item.achievement && (
+                  <div className="inline-block bg-teal-500/20 border border-teal-500/40 px-2 py-0.5 rounded">
+                    <span className="text-teal-300 font-domine text-xs font-semibold">
+                      {item.achievement}
+                    </span>
+                  </div>
+                )}
+
+                {item.duration && (
+                  <div className="inline-block bg-purple-500/20 border border-purple-500/40 px-2 py-0.5 rounded">
+                    <span className="text-purple-300 font-domine text-xs font-semibold">
+                      {item.duration}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+      ))}
+    </motion.div>
+  );
+};
+
 const MyJourney = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const gridContainerRef = useRef<HTMLDivElement>(null);
+
+  // Track scroll progress based on section - this ensures smooth bidirectional scrolling
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"]
+  });
 
   const journeyData: JourneyItem[] = [
     {
@@ -41,14 +151,8 @@ const MyJourney = () => {
     },
   ];
 
-  // Track scroll progress through the entire section
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"]
-  });
-
   return (
-    <div ref={sectionRef} className="relative h-[300vh] w-full bg-[#121212]">
+    <div ref={sectionRef} className="relative h-[180vh] w-full bg-[#121212]">
       {/* Sticky Container */}
       <div className="sticky top-0 h-screen flex flex-col justify-center py-20 overflow-hidden">
         {/* Title Section - Top Center */}
@@ -64,7 +168,7 @@ const MyJourney = () => {
           </h1>
         </motion.div>
 
-        {/* Grid Container with Horizontal Curved Timeline - No scrollbar */}
+        {/* Grid Container with Horizontal Timeline */}
         <div ref={gridContainerRef} className='relative bg-black rounded-r-full w-full md:w-[85%] h-[50vh] overflow-hidden mt-20'>
           {/* Static Grid Pattern */}
           <StaticGridPattern gridSize={40} />
@@ -74,141 +178,6 @@ const MyJourney = () => {
         </div>
       </div>
     </div>
-  );
-};
-
-// Separate component for horizontal scrolling content
-const HorizontalScrollContent = ({
-  scrollProgress,
-  journeyData
-}: {
-  scrollProgress: any;
-  journeyData: JourneyItem[];
-}) => {
-  // Transform scroll to horizontal movement - cards start from right and move left
-  // Movement range covers full journey from right edge to left edge
-  const x = useTransform(scrollProgress, [0.2, 0.9], [800, -2800]);
-
-  return (
-    <motion.div
-      style={{ x }}
-      className="absolute right-0 top-0 h-full flex items-center"
-    >
-            {/* Horizontal Smooth Curved SVG Path */}
-            <svg
-              className="absolute left-0 top-0 w-[3500px] h-full pointer-events-none"
-              viewBox="0 0 3500 400"
-              preserveAspectRatio="none"
-              fill="none"
-            >
-              <path
-                d="M 0 200 C 200 200, 250 80, 450 80 C 650 80, 700 200, 900 200 C 1100 200, 1150 320, 1350 320 C 1550 320, 1600 200, 1800 200 C 2000 200, 2050 80, 2250 80 C 2450 80, 2500 200, 2700 200 C 2900 200, 2950 320, 3150 320 C 3350 320, 3400 200, 3500 200"
-                stroke="rgba(255, 255, 255, 0.3)"
-                strokeWidth="3"
-                fill="none"
-                strokeLinecap="round"
-              />
-            </svg>
-
-        {/* Timeline Cards - Horizontal Layout */}
-        <div className="relative z-10 h-full flex items-center px-16 gap-16">
-          {/* Starting spacer */}
-          <div className="w-32 flex-shrink-0" />
-
-          {journeyData.map((item, index) => (
-            <TimelineCard
-              key={index}
-              item={item}
-              index={index}
-              scrollProgress={scrollProgress}
-            />
-          ))}
-
-          {/* Ending spacer */}
-          <div className="w-32 flex-shrink-0" />
-        </div>
-      </motion.div>
-  );
-};
-
-// Timeline Card Component - Visible from start, slides with timeline
-const TimelineCard = ({
-  item,
-  index,
-  scrollProgress,
-}: {
-  item: JourneyItem;
-  index: number;
-  scrollProgress: any;
-}) => {
-  // Cards fade out as they move past the left edge
-  // Calculate when each card exits based on its position in the timeline
-  const exitStart = 0.3 + (index * 0.15);
-  const exitEnd = 0.4 + (index * 0.15);
-
-  const opacity = useTransform(
-    scrollProgress,
-    [0.2, exitStart, exitEnd],
-    [1, 1, 0]
-  );
-
-  return (
-    <motion.div
-      style={{ opacity }}
-      className={`flex-shrink-0 relative ${index % 2 === 0 ? 'self-start mt-16' : 'self-end mb-16'}`}
-    >
-      <div className="relative">
-        {/* Connection Dot */}
-        <motion.div
-          style={{ opacity }}
-          className={`absolute left-1/2 -translate-x-1/2 w-3 h-3 bg-white rounded-full border-2 border-[#121212] shadow-lg z-20 ${
-            index % 2 === 0 ? '-bottom-6' : '-top-6'
-          }`}
-        />
-
-        {/* Card - Compact Size */}
-        <motion.div
-          whileHover={{ scale: 1.05, y: index % 2 === 0 ? -5 : 5 }}
-          className="bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-md border border-white/20 rounded-xl p-4 shadow-xl w-64 hover:shadow-white/10 transition-shadow duration-300"
-        >
-          {/* Year Badge */}
-          <div className="inline-block bg-white/25 backdrop-blur-md px-3 py-1 rounded-full mb-2">
-            <span className="text-white font-domine font-semibold text-xs tracking-wider">
-              {item.year}
-            </span>
-          </div>
-
-          {/* Title */}
-          <h3 className="text-lg font-domine font-semibold text-[#e6e6e6] mb-2">
-            {item.title}
-          </h3>
-
-          {/* Description - Truncated */}
-          <p className="text-white/80 font-domine text-sm leading-relaxed mb-2 line-clamp-3">
-            {item.description}
-          </p>
-
-          {/* Additional Info */}
-          <div className="flex flex-wrap gap-1.5 mt-2">
-            {item.achievement && (
-              <div className="inline-block bg-teal-500/20 border border-teal-500/40 px-2 py-0.5 rounded">
-                <span className="text-teal-300 font-domine text-xs font-semibold">
-                  {item.achievement}
-                </span>
-              </div>
-            )}
-
-            {item.duration && (
-              <div className="inline-block bg-purple-500/20 border border-purple-500/40 px-2 py-0.5 rounded">
-                <span className="text-purple-300 font-domine text-xs font-semibold">
-                  {item.duration}
-                </span>
-              </div>
-            )}
-          </div>
-        </motion.div>
-      </div>
-    </motion.div>
   );
 };
 
