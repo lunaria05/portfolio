@@ -31,7 +31,7 @@ export default function RootLayout({
       <body
         className={`${luckiestGuy.variable} ${domine.variable} antialiased bg-black`}
       >
-        <div className="max-w-[1400px] mx-auto 2xl:my-16 w-full bg-background min-h-screen">
+        <div className="max-w-[1600px] mx-auto 2xl:my-16 w-full bg-background min-h-screen">
           {children}
         </div>
       </body>
