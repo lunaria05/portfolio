@@ -25,7 +25,7 @@ const HorizontalScrollContent: React.FC<HorizontalScrollContentProps> = ({ scrol
   return (
     <motion.div
       style={{ x, opacity, willChange: 'transform' }}
-      className="absolute inset-0 flex items-center gap-44 pl-[5%] pr-[50%]"
+      className="absolute inset-0 flex items-center gap-24 sm:gap-32 md:gap-44 pl-[5%] pr-[30%] md:pr-[50%]"
     >
       {/* Curved Timeline SVG - Smooth Rounded Wave */}
       <svg
@@ -71,22 +71,22 @@ const HorizontalScrollContent: React.FC<HorizontalScrollContentProps> = ({ scrol
               }}
               viewport={{ once: false, amount: 0.3 }}
               whileHover={{ scale: 1.05, y: index % 2 === 0 ? -5 : 5 }}
-              className="bg-linear-to-br from-white/15 to-white/5 backdrop-blur-md border border-white/20 rounded-xl p-4 shadow-xl w-64 h-[280px] hover:shadow-white/10 transition-shadow duration-300 flex flex-col"
+              className="bg-linear-to-br from-white/15 to-white/5 backdrop-blur-md border border-white/20 rounded-xl p-3 sm:p-4 shadow-xl w-48 sm:w-56 md:w-64 h-[250px] sm:h-[270px] md:h-[280px] hover:shadow-white/10 transition-shadow duration-300 flex flex-col"
             >
               {/* Year Badge */}
-              <div className="inline-block bg-white/25 backdrop-blur-md px-3 py-1 rounded-full mb-2 w-fit">
+              <div className="inline-block bg-white/25 backdrop-blur-md px-2 sm:px-3 py-0.5 sm:py-1 rounded-full mb-1.5 sm:mb-2 w-fit">
                 <span className="text-white font-domine font-semibold text-xs tracking-wider">
                   {item.year}
                 </span>
               </div>
 
               {/* Title */}
-              <h3 className="text-lg font-domine font-semibold text-[#e6e6e6] mb-2 line-clamp-2">
+              <h3 className="text-base sm:text-lg font-domine font-semibold text-[#e6e6e6] mb-1.5 sm:mb-2 line-clamp-2">
                 {item.title}
               </h3>
 
               {/* Description - Truncated */}
-              <p className="text-white/80 font-domine text-sm leading-relaxed mb-2 line-clamp-4 grow">
+              <p className="text-white/80 font-domine text-xs sm:text-sm leading-relaxed mb-1.5 sm:mb-2 line-clamp-4 grow">
                 {item.description}
               </p>
 
@@ -154,22 +154,22 @@ const MyJourney = () => {
   return (
     <div ref={sectionRef} className="relative h-[180vh] w-full bg-[#121212]">
       {/* Sticky Container */}
-      <div className="sticky top-0 h-screen flex flex-col justify-center py-20 overflow-hidden">
+      <div className="sticky top-0 h-screen flex flex-col justify-center py-12 md:py-20 overflow-hidden px-4">
         {/* Title Section - Top Center */}
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-8"
+          className="text-center mb-6 md:mb-8"
         >
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-domine font-bold text-[#e6e6e6] tracking-wider">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-domine font-bold text-[#e6e6e6] tracking-wider">
             MY JOURNEY
           </h1>
         </motion.div>
 
         {/* Grid Container with Horizontal Timeline */}
-        <div ref={gridContainerRef} className='relative bg-black rounded-r-full w-full md:w-[85%] h-[50vh] overflow-hidden mt-20'>
+        <div ref={gridContainerRef} className='relative bg-black rounded-r-full w-full md:w-[90%] lg:w-[85%] h-[45vh] sm:h-[50vh] overflow-hidden mt-12 md:mt-20'>
           {/* Static Grid Pattern */}
           <StaticGridPattern gridSize={40} />
 

@@ -5,10 +5,10 @@ import HeroSection from '../HeroSection/HeroSection'
 
 const HomePage = () => {
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-[#121212]">
+    <div className="relative min-h-screen w-full overflow-hidden bg-[#121212]">
       <Navbar />
 
-      <div className="relative h-[calc(100vh-73px)] w-full">
+      <div className="relative min-h-screen w-full pt-[73px]">
         {/* Background Grid Pattern */}
         <InteractiveGridPattern
           className="absolute -inset-[20%] h-[90%] z-10 w-[90%] -left-[20%] -top-[20%] skew-y-12 mask-[radial-gradient(500px_circle_at_center,white,transparent)]"

@@ -78,27 +78,28 @@ const Techstack = () => {
   const tetrisGrid = createTetrisGrid();
 
   return (
-    <div className="relative min-h-screen w-full bg-[#121212] flex flex-col items-center justify-between py-12 overflow-hidden">
+    <div className="relative min-h-screen w-full bg-[#121212] flex flex-col items-center justify-center py-12 md:py-16 overflow-hidden px-4">
       {/* Title Section - Top */}
       <motion.div
         initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="text-center z-10"
+        className="text-center z-10 mb-12 md:mb-16"
       >
-        <h1 className="text-3xl md:text-4xl lg:text-7xl font-domine font-bold text-[#e6e6e6] tracking-wider leading-30 mb-16">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-domine font-bold text-[#e6e6e6] tracking-wider">
           SKILLS & TECHNOLOGIES
         </h1>
       </motion.div>
 
       {/* Tetris Grid - Bottom */}
-      <div ref={ref} className="w-full max-w-6xl px-4 pb-8">
+      <div ref={ref} className="w-full max-w-6xl">
         <div className="flex flex-col gap-0">
           {tetrisGrid.map((row, rowIndex) => (
             <div key={rowIndex} className="flex justify-center gap-0">
               {row.map((tech, colIndex) => {
                 if (!tech) {
-                  return <div key={`empty-${rowIndex}-${colIndex}`} className="w-36 md:w-40 lg:w-48" />;
+                  return <div key={`empty-${rowIndex}-${colIndex}`} className="w-24 sm:w-32 md:w-36 lg:w-40 xl:w-48" />;
                 }
 
                 // Animate from bottom to top: reverse the row index
@@ -127,13 +128,13 @@ const Techstack = () => {
                       ease: [0.34, 1.26, 0.64, 1], // Smooth with slight bounce
                     }}
                     whileHover={{ scale: 1.05, y: -4 }}
-                    className="bg-linear-to-br from-white/15 to-white/5 backdrop-blur-md border-r border-b border-white/20 rounded-none p-4 shadow-xl hover:shadow-white/10 transition-all duration-300 flex flex-col items-center justify-center gap-3 group cursor-pointer w-36 md:w-40 lg:w-48 h-24 md:h-28 lg:h-32"
+                    className="bg-linear-to-br from-white/15 to-white/5 backdrop-blur-md border-r border-b border-white/20 rounded-none p-2 sm:p-3 md:p-4 shadow-xl hover:shadow-white/10 transition-all duration-300 flex flex-col items-center justify-center gap-2 sm:gap-3 group cursor-pointer w-24 sm:w-32 md:w-36 lg:w-40 xl:w-48 h-20 sm:h-24 md:h-28 lg:h-32"
                   >
                     {/* Icon */}
-                    <tech.icon className={`text-3xl md:text-4xl lg:text-5xl ${tech.color} group-hover:scale-110 transition-transform duration-300`} />
+                    <tech.icon className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl ${tech.color} group-hover:scale-110 transition-transform duration-300`} />
 
                     {/* Name */}
-                    <h3 className="text-[10px] md:text-xs font-domine font-semibold text-[#e6e6e6] text-center leading-tight">
+                    <h3 className="text-[9px] sm:text-[10px] md:text-xs font-domine font-semibold text-[#e6e6e6] text-center leading-tight">
                       {tech.name}
                     </h3>
                   </motion.div>

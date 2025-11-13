@@ -1,0 +1,54 @@
+[
+  {
+    "id": "savvyspend",
+    "title": "SavvySpend – Intuitive Personal Finance Tracker",
+    "description": "SavvySpend is a responsive web application designed to help users effectively manage their personal finances. It allows users to track income and expenses, categorize transactions, set budgets, and visualize their spending habits through interactive charts. The goal was to provide a simple yet powerful tool for financial awareness. My primary role involved full-stack development, focusing on database design, API implementation, and core front-end features.",
+    "technologies": {
+      "frontend": ["React", "Redux", "Chart.js", "CSS Modules"],
+      "backend": ["Node.js", "Express.js"],
+      "database": ["MongoDB"],
+      "other": ["Git", "npm", "Heroku (for deployment)"]
+    },
+    "keyFeatures": [
+      "User authentication and authorization (registration, login, secure sessions).",
+      "Dashboard overview with summary of current balances and recent transactions.",
+      "Ability to add, edit, and delete income and expense transactions.",
+      "Customizable transaction categories.",
+      "Budget creation and tracking for different categories.",
+      "Interactive data visualizations (pie charts for categories, bar graphs for monthly trends).",
+      "Responsive design for seamless use on desktop and mobile devices."
+    ],
+    "visuals": [
+      "https://example.com/savvyspend-screenshot1.png",
+      "https://example.com/savvyspend-screenshot2.png"
+    ],
+    "projectLink": "https://www.savvyspend-demo.com",
+    "githubLink": "https://github.com/yourusername/savvyspend"
+  },
+  {
+    "id": "flavorfind",
+    "title": "FlavorFind – Your Personalized Recipe Assistant",
+    "description": "FlavorFind is a cross-platform mobile application that helps users discover new recipes based on available ingredients, dietary preferences, and cuisine types. It provides step-by-step cooking instructions, ingredient lists, and allows users to save their favorite recipes. I was responsible for the mobile app development, including UI implementation, API integration with a recipe database, and local data persistence.",
+    "technologies": {
+      "mobileFramework": ["React Native"],
+      "stateManagement": ["Context API"],
+      "backendAPI": ["Spoonacular API (external)", "Firebase (for user favorites)"],
+      "styling": ["Styled Components"],
+      "other": ["Expo", "Git"]
+    },
+    "keyFeatures": [
+      "Recipe search by ingredients, keywords, dietary restrictions (vegan, gluten-free, etc.), and cuisine.",
+      "Detailed recipe view including ingredients list, preparation steps, and nutritional information.",
+      "Ability to mark and save favorite recipes for quick access.",
+      "Ingredient pantry feature to track what's currently available.",
+      "Random recipe generator for inspiration.",
+      "User-friendly interface optimized for both iOS and Android."
+    ],
+    "visuals": [
+      "https://example.com/flavorfind-screenshot1.png",
+      "https://example.com/flavorfind-screenshot2.png"
+    ],
+    "projectLink": "https://www.flavorfind-appstore.com",
+    "githubLink": "https://github.com/yourusername/flavorfind-mobile"
+  }
+]
